@@ -1,0 +1,43 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+} */
+
+body, html, #root, .App {
+  height: 100%;
+}
+
+.alert {
+  -webkit-animation: fadein 1.5s, fadeout 1.5s 2.5s;
+  animation: fadein 1.5s, fadeout 1.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+/* @-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+} */
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 0px; opacity: 1;}
+}
+
+/* @-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+} */
+
+@keyframes fadeout {
+  from {bottom: 0px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
