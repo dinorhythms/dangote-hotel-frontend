@@ -21,7 +21,8 @@ export const login = async (credential) => {
         //set localstorage
         localStorage.setItem('userToken', response.data.data.token)
 
-        return response.data
+        // dispatch here
+        return  response.data
 
     } catch (error) {
         return error.response.data
