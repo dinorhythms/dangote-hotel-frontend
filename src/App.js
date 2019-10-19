@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { loadUser } from './actions/authActions';
-import Login from './components/authentication/login';
-import Dashboard from './components/dashboard';
+import Login from './pages/Login';
 
 function App() {
 
@@ -15,7 +14,6 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Login}/>
-          <Route exact path="/dashboard" component={Dashboard}/>
         </Switch>
       </div>
     </BrowserRouter>
