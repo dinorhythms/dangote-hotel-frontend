@@ -19,7 +19,7 @@ const FormPage = (props) => {
 
         e.preventDefault();
         setIsLoading(true);
-
+        setErrorMsg({ isError: false })
         const credential = { email, password }
         const data = await login(credential);
         if (data.status === 'success') {
@@ -28,7 +28,7 @@ const FormPage = (props) => {
             props.history.push('/dashboard')
         } else {
             setIsLoading(false);
-            setErrorMsg({ isError: true, message: data.error })
+            setErrorMsg({ isError: true, message: data })
         }
 
     }
