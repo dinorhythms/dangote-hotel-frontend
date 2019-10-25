@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { MDBCard, MDBCardBody, MDBTable, MDBTableBody, MDBTableHead, MDBCol } from 'mdbreact';
+import Spinner from './Spinner';
 
-const DashboardReservation = ({ name, data }) => {
+const DashboardReservation = ({ name, data, history }) => {
 
   const [historyData, setHistoryData] = useState();
 
   useEffect(() => {
     setHistoryData(data);
   }, [historyData, data])
-
+  
   return (
     <MDBCol md="6">
         <h5>{name} History</h5>
@@ -29,16 +30,14 @@ const DashboardReservation = ({ name, data }) => {
                     historyData && !historyData.isLoaded
                     ? (
                       <tr>
-                        <td colSpan="4">
-                          <div className="spinner-border" role="status">
-                            <span className="sr-only">Loading...</span>
-                          </div>
+                        <td colSpan="5">
+                          <Spinner/>
                         </td>
                       </tr>
                     )
                     : historyData && historyData.reservation && historyData.reservation.length > 0
                       ? historyData.reservation.map( (reservation, index) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={ () => history.push(`/reservation/${reservation.id}`) } style={{ cursor: 'pointer' }}>
                           <td>{index+1}</td>
                           <td>{reservation.room.room_name}</td>
                           <td>{reservation.booked_date}</td>
@@ -48,7 +47,7 @@ const DashboardReservation = ({ name, data }) => {
                       ))
                       : (
                         <tr>
-                          <td colSpan="4">No Records</td>
+                          <td colSpan="5">No Records</td>
                         </tr>
                       )
                   }

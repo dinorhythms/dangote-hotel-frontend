@@ -32,7 +32,8 @@ class TopNavigation extends Component {
                             <MDBNavLink to="#">Home</MDBNavLink>
                         </MDBNavItem>
                         <MDBNavItem>
-                            <a rel="noopener noreferrer" className="nav-link Ripple-parent" href="https://mdbootstrap.com/docs/react/" target="_blank">Rooms</a>
+                            <MDBNavLink to="/reservation/1">Room</MDBNavLink>
+                            {/* <a rel="noopener noreferrer" className="nav-link Ripple-parent" href="/reservation/1" >Rooms</a> */}
                         </MDBNavItem>
                         <MDBNavItem>
                             <a rel="noopener noreferrer" className="nav-link Ripple-parent" href="https://mdbootstrap.com/docs/react/getting-started/download/" target="_blank">Bookings</a>

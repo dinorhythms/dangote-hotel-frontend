@@ -7,8 +7,9 @@ import {
 	MDBTableHead,
 	MDBCol
 } from "mdbreact";
+import Spinner from "./Spinner";
 
-const DashboardServices = ({ name, data }) => {
+const DashboardServices = ({ name, data, history }) => {
 	const [historyData, setHistoryData] = useState();
 
 	useEffect(() => {
@@ -26,6 +27,7 @@ const DashboardServices = ({ name, data }) => {
 								<th>#</th>
 								<th>Type</th>
 								<th>Name</th>
+								<th>Price</th>
 								<th>Paid</th>
 							</tr>
 						</MDBTableHead>
@@ -33,19 +35,18 @@ const DashboardServices = ({ name, data }) => {
 							{historyData && !historyData.isLoaded ? (
 								<tr>
 									<td colSpan="4">
-										<div className="spinner-border" role="status">
-											<span className="sr-only">Loading...</span>
-										</div>
+										<Spinner/>
 									</td>
 								</tr>
 							) : historyData &&
 							  historyData.services &&
 							  historyData.services.length > 0 ? (
 								historyData.services.map((service, index) => (
-									<tr key={index}>
+									<tr key={index} onClick={ () => history.push(`/service/${service.id}`) } style={{ cursor: 'pointer' }}>
 										<td>{index + 1}</td>
-										<td>{service.room.room_name}</td>
+										<td>{service.service.service_name}</td>
 										<td>{service.booked_date}</td>
+										<td>{service.price}</td>
 										<td>{service.paid === 0 ? "NO" : "YES"}</td>
 									</tr>
 								))

@@ -15,9 +15,14 @@ const AdminCardSection1 = ({ revData, servData }) => {
     setService(servData);
 
     const sumUp = (sumUpElement) => {
+
       let pendingPay = sumUpElement.filter(el => el.paid !== 1);
-      const payPrice = pendingPay.map( el => el.price)
-      return payPrice.reduce((total, sum) => +total + +sum);
+      if(pendingPay.length > 0 ){
+        const payPrice = pendingPay.map( el => el.price)
+        return payPrice.reduce((total, sum) => +total + +sum);
+      }
+      return 0;
+      
     }
     
     if(reservation && reservation.length > 0){
@@ -33,13 +38,13 @@ const AdminCardSection1 = ({ revData, servData }) => {
   }, [revData, servData, reservation, service])
 
   return (
-    <MDBRow className="mb-4">
+    <MDBRow className="mb-4 mt-5">
         <MDBCol xl="3" md="6" className="mb-r">
           <MDBCard className="cascading-admin-card">
               <div className="admin-up">
               <MDBIcon icon="money-bill-alt" className="primary-color"/>
                 <div className="data">
-                  <p>Active Room Booking</p>
+                  <p>Pending Room Payment</p>
                   <h4>
                     <strong> &#8358; { roomBanlance }</strong>
                   </h4>
@@ -78,7 +83,7 @@ const AdminCardSection1 = ({ revData, servData }) => {
               <div className="admin-up">
               <MDBIcon icon="chart-pie" className="light-blue lighten-1"/>
                 <div className="data">
-                  <p>Active Room Services</p>
+                  <p>Pending Services Payment</p>
                   <h4>
                     <strong> &#8358; {serviceBalance}</strong>
                   </h4>

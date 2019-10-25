@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { loadUser } from './actions/authActions';
+
+import Layout from './components/layouts';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Dashboard from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import TablesPage from './pages/TablesPage';
 import Auth from './services/Auth';
+import ReservationDetails from './pages/reservation/ReservationDetails';
 
 import './App.css';
 import './index.css';
-import Layout from './components/layouts';
+import ServiceDetails from './pages/reservation/ServiceDetails';
 
 function App() {
 
@@ -27,6 +30,8 @@ function App() {
           <Auth>
             <Layout>
               <Route path="/dashboard" component={Dashboard}/>
+              <Route path="/reservation/:id" component={ReservationDetails}/>
+              <Route path="/service/:id" component={ServiceDetails}/>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/tables' component={TablesPage} />
             </Layout>

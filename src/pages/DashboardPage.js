@@ -15,13 +15,12 @@ import DashboardReservation from '../components/DashboardReservation';
 import { GET_SERVICES } from '../types/servicesTypes';
 import DashboardServices from '../components/DashboardServices';
 
-const DashboardPage = () => {
+const DashboardPage = (props) => {
   const dispatch = useDispatch();
-  const token = useSelector(state => state.auth.token);
   useEffect( () => {
     const fetchReservation = async () => {
       dispatch({ type: IS_LOADING });
-      const data = await getReservationAction(token);
+      const data = await getReservationAction();
       if (data.status === 'success') {
         dispatch({ type: GET_RESERVATIONS, payload: data.data });
       } else {
@@ -30,7 +29,7 @@ const DashboardPage = () => {
     }
     const fetchServices = async () => {
       dispatch({ type: IS_LOADING });
-      const data = await getServicesAction(token);
+      const data = await getServicesAction();
       if (data.status === 'success') {
         dispatch({ type: GET_SERVICES, payload: data.data });
       } else {
@@ -39,18 +38,18 @@ const DashboardPage = () => {
     }
     fetchReservation();
     fetchServices();
-  },[dispatch, token])
+  },[dispatch])
 
   const reservationHistory = useSelector(state => state.reservation, shallowEqual);
   const servicesHistory = useSelector(state => state.services, shallowEqual);
-
+  
   return (
     <React.Fragment>
-      <BreadcrumSection />
+      <BreadcrumSection name="Home" name2="Dashboard" />
       <AdminCardSection1 revData={ reservationHistory.reservation } servData={ servicesHistory.services } />
       <MDBRow className="mb-4">
-        <DashboardReservation name='Reservation' data={reservationHistory} />
-        <DashboardServices  name='Room Services' data={servicesHistory} />
+        <DashboardReservation name='Reservation' data={reservationHistory} {...props} />
+        <DashboardServices  name='Room Services' data={servicesHistory} {...props} />
       </MDBRow>
     </React.Fragment>
   )
