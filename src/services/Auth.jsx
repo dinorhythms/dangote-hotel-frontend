@@ -1,10 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { useAuth } from '../customhooks/useAuth';
 
 const Auth = (props) => {
-  const auth = useSelector(state => state.auth);
-  if(auth.isLoaded && !auth.isAuthenticated) return <Redirect to="/" />
+  const { auth, loading } = useAuth();
+  if(loading) return '...Loading';
+  if(auth && auth.isLoaded && !auth.isAuthenticated) return <Redirect to="/" />
   return (
     props.children
   );

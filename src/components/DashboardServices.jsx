@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import {
 	MDBCard,
 	MDBCardBody,
@@ -18,7 +19,7 @@ const DashboardServices = ({ name, data, history }) => {
 
 	return (
 		<MDBCol md="6">
-			<h5>{name} History</h5>
+			<h5>Last 10 {name}</h5>
 			<MDBCard>
 				<MDBCardBody>
 					<MDBTable hover>
@@ -41,7 +42,7 @@ const DashboardServices = ({ name, data, history }) => {
 							) : historyData &&
 							  historyData.services &&
 							  historyData.services.length > 0 ? (
-								historyData.services.map((service, index) => (
+								historyData.services.slice(0, 10).map((service, index) => (
 									<tr key={index} onClick={ () => history.push(`/service/${service.id}`) } style={{ cursor: 'pointer' }}>
 										<td>{index + 1}</td>
 										<td>{service.service.service_name}</td>
@@ -57,6 +58,7 @@ const DashboardServices = ({ name, data, history }) => {
 							)}
 						</MDBTableBody>
 					</MDBTable>
+					<div className="text-center text-muted"><Link to="/service"><small>View all</small></Link></div>
 				</MDBCardBody>
 			</MDBCard>
 		</MDBCol>

@@ -50,6 +50,7 @@ const FormPage = (props) => {
                                         validate
                                         error="wrong"
                                         success="right"
+                                        required
                                         onChange={(e) => { setEmail(e.target.value); setErrorMsg({ isError: false, message: '' }) }}
                                     />
                                     <MDBInput
@@ -58,6 +59,7 @@ const FormPage = (props) => {
                                         group
                                         type="password"
                                         validate
+                                        required
                                         onChange={(e) => { setPassword(e.target.value); setErrorMsg({ isError: false, message: '' }) }}
                                     />
                                 </div>

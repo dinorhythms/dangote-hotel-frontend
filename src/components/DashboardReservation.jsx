@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { MDBCard, MDBCardBody, MDBTable, MDBTableBody, MDBTableHead, MDBCol } from 'mdbreact';
 import Spinner from './Spinner';
 
@@ -12,7 +13,7 @@ const DashboardReservation = ({ name, data, history }) => {
   
   return (
     <MDBCol md="6">
-        <h5>{name} History</h5>
+        <h5>Last 10 {name} History</h5>
         <MDBCard>
             <MDBCardBody>
               <MDBTable hover>
@@ -36,7 +37,7 @@ const DashboardReservation = ({ name, data, history }) => {
                       </tr>
                     )
                     : historyData && historyData.reservation && historyData.reservation.length > 0
-                      ? historyData.reservation.map( (reservation, index) => (
+                      ? historyData.reservation.slice(0, 10).map( (reservation, index) => (
                         <tr key={index} onClick={ () => history.push(`/reservation/${reservation.id}`) } style={{ cursor: 'pointer' }}>
                           <td>{index+1}</td>
                           <td>{reservation.room.room_name}</td>
@@ -53,6 +54,7 @@ const DashboardReservation = ({ name, data, history }) => {
                   }
                 </MDBTableBody>
               </MDBTable>
+              <div className="text-center text-muted"><Link to="/reservation"><small>View all</small></Link></div>
             </MDBCardBody>
         </MDBCard>
     </MDBCol>

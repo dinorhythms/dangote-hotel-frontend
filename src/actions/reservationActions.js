@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 const apiPath = process.env.REACT_APP_BACKEND;
-const token = localStorage.getItem("userToken");
 
-export const getReservationAction = async () => {
+export const getReservationAction = async (token) => {
   try {
     const url = `${apiPath}/reservation/`;
     const response = await axios({
@@ -22,7 +21,7 @@ export const getReservationAction = async () => {
   }
 }
 
-export const getReservationByIdAction = async (id) => {
+export const getReservationByIdAction = async (token, id) => {
   try {
     const url = `${apiPath}/reservation/${id}`;
     const response = await axios({
@@ -41,7 +40,7 @@ export const getReservationByIdAction = async (id) => {
   }
 }
 
-export const getServicesAction = async () => {
+export const getServicesAction = async (token) => {
   try {
     const url = `${apiPath}/servicereservation/`;
     const response = await axios({
@@ -60,7 +59,7 @@ export const getServicesAction = async () => {
   }
 }
 
-export const getServiceByIdAction = async (id) => {
+export const getServiceByIdAction = async (token, id) => {
   try {
     const url = `${apiPath}/servicereservation/${id}`;
     const response = await axios({

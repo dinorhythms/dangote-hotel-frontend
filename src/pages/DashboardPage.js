@@ -1,55 +1,29 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React from 'react';
 
-//components
+//Components
 import { MDBRow } from 'mdbreact';
 import AdminCardSection1 from '../components/AdminCardSection1';
 import BreadcrumSection from '../components/BreadcrumSection';
-
-// types
-import { GET_RESERVATIONS, IS_LOADING, IS_LOADED } from "../types/reservationTypes";
-
-// actions
-import { getReservationAction, getServicesAction } from '../actions/reservationActions';
 import DashboardReservation from '../components/DashboardReservation';
-import { GET_SERVICES } from '../types/servicesTypes';
 import DashboardServices from '../components/DashboardServices';
 
-const DashboardPage = (props) => {
-  const dispatch = useDispatch();
-  useEffect( () => {
-    const fetchReservation = async () => {
-      dispatch({ type: IS_LOADING });
-      const data = await getReservationAction();
-      if (data.status === 'success') {
-        dispatch({ type: GET_RESERVATIONS, payload: data.data });
-      } else {
-        dispatch({ type: IS_LOADED});
-      }
-    }
-    const fetchServices = async () => {
-      dispatch({ type: IS_LOADING });
-      const data = await getServicesAction();
-      if (data.status === 'success') {
-        dispatch({ type: GET_SERVICES, payload: data.data });
-      } else {
-        dispatch({ type: IS_LOADED});
-      }
-    }
-    fetchReservation();
-    fetchServices();
-  },[dispatch])
+// Actions
+import useGetReservations from '../customhooks/useGetReservations';
+import useGetServices from '../customhooks/useGetServices';
 
-  const reservationHistory = useSelector(state => state.reservation, shallowEqual);
-  const servicesHistory = useSelector(state => state.services, shallowEqual);
+const DashboardPage = (props) => {
+  const token = localStorage.getItem("userToken");
+  
+  const { reservations } = useGetReservations(token, '/reservation/');
+  const { services } = useGetServices(token, '/servicereservation/');
   
   return (
     <React.Fragment>
       <BreadcrumSection name="Home" name2="Dashboard" />
-      <AdminCardSection1 revData={ reservationHistory.reservation } servData={ servicesHistory.services } />
+      <AdminCardSection1 revData={ reservations.reservation } servData={ services.services } />
       <MDBRow className="mb-4">
-        <DashboardReservation name='Reservation' data={reservationHistory} {...props} />
-        <DashboardServices  name='Room Services' data={servicesHistory} {...props} />
+        <DashboardReservation name='Reservation' data={reservations} {...props} />
+        <DashboardServices  name='Room Services' data={services} {...props} />
       </MDBRow>
     </React.Fragment>
   )
