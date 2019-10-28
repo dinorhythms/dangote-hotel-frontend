@@ -14,6 +14,8 @@ import ReservationDetails from './pages/reservation/ReservationDetails';
 import './App.css';
 import './index.css';
 import ServiceDetails from './pages/reservation/ServiceDetails';
+import Reservations from './pages/reservation/Reservations';
+import Services from './pages/reservation/Services';
 
 function App() {
 
@@ -30,8 +32,10 @@ function App() {
           <Auth>
             <Layout>
               <Route path="/dashboard" component={Dashboard}/>
-              <Route path="/reservation/:id" component={ReservationDetails}/>
-              <Route path="/service/:id" component={ServiceDetails}/>
+              <Route exact path="/reservation" component={Reservations}/>
+              <Route exact path="/reservation/:id" component={ReservationDetails}/>
+              <Route exact path="/service" component={Services}/>
+              <Route exact path="/service/:id" component={ServiceDetails}/>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/tables' component={TablesPage} />
             </Layout>

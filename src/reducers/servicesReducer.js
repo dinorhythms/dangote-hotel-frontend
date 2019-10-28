@@ -1,8 +1,8 @@
 import {
 	GET_SERVICES,
-	IS_LOADING,
-	IS_LOADED,
-	GET_SERVICE_BY_ID
+	GET_SERVICE_BY_ID,
+	IS_LOADING_SERVICES,
+	SERVICES_IS_LOADED
 } from "../types/servicesTypes";
 
 const initialState = {
@@ -14,9 +14,9 @@ const initialState = {
 
 export default function servicesReducer(state = initialState, action) {
 	switch (action.type) {
-		case IS_LOADING:
+		case IS_LOADING_SERVICES:
 			return { ...state, isLoading: true, isLoaded: false };
-		case IS_LOADED:
+		case SERVICES_IS_LOADED:
 			return { ...state, isLoading: false, isLoaded: true };
 		case GET_SERVICES:
 			return {

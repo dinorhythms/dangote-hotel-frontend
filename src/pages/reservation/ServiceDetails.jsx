@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import {
 	MDBBtn,
 	MDBIcon,
@@ -9,31 +8,14 @@ import {
 } from "mdbreact";
 
 import BreadcrumSection from "../../components/BreadcrumSection";
-import { getServiceByIdAction } from "../../actions/reservationActions";
-import {
-  IS_LOADING,
-	IS_LOADED,
-	GET_SERVICE_BY_ID
-} from "../../types/servicesTypes";
 import Spinner from "../../components/Spinner";
+import useGetServiceByID from "../../customhooks/useGetServiceByID";
 
 const ServiceDetails = ({ history, match }) => {
 	const { id } = match.params;
-	const dispatch = useDispatch();
-	useEffect(() => {
-		const getData = async () => {
-			dispatch({ type: IS_LOADING });
-			const data = await getServiceByIdAction(id);
-			if (data.status === "success") {
-				dispatch({ type: GET_SERVICE_BY_ID, payload: data.data });
-			} else {
-				dispatch({ type: IS_LOADED });
-			}
-		};
-		getData();
-	}, [id, dispatch]);
+  const token = localStorage.getItem("userToken");
 
-	const service = useSelector(state => state.services);
+  const { service } = useGetServiceByID(token, '/servicereservation/', id)
   const { singleService } = service;
 
 	return (
