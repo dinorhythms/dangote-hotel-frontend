@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { MDBCard, MDBCardBody, MDBIcon, MDBRow, MDBCol } from 'mdbreact';
 
-const AdminCardSection1 = ({ revData, servData }) => {
+import useGetReservations from "../customhooks/useGetReservations";
+import useGetServices from "../customhooks/useGetServices.js";
 
-  const [reservation, setReservation] = useState();
-  const [service, setService] = useState();
+const AdminCardSection1 = () => {
+
+  const token = localStorage.getItem("userToken");
+  const { reservations } = useGetReservations(token, "/reservation/");
+  const { services } = useGetServices(token, "/servicereservation/");
+  const reservation = reservations.reservations;
   const [roomBanlance, setRoomBanlance] = useState('0');
   const [serviceBalance, setServiceBalance] = useState('0');
   const [activeReservNo, setActiveReservNo] = useState('0');
   
   useEffect(() => {
-
-    setReservation(revData);
-    setService(servData);
 
     const sumUp = (sumUpElement) => {
 
@@ -31,11 +33,11 @@ const AdminCardSection1 = ({ revData, servData }) => {
       setActiveReservNo(rev.length);
     }
 
-    if(service && service.length > 0){
-      setServiceBalance(sumUp(service))
+    if(services && services.services && services.services.length > 0){
+      setServiceBalance(sumUp(services.services))
     }
 
-  }, [revData, servData, reservation, service])
+  }, [reservation, services])
 
   return (
     <MDBRow className="mb-4 mt-5">
@@ -74,7 +76,6 @@ const AdminCardSection1 = ({ revData, servData }) => {
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar bg grey" role="progressbar"
                     style={{width: '100%'}}></div>
                 </div>
-                {/* <MDBCardText>Worse than last week (25%)</MDBCardText> */}
               </MDBCardBody>
             </MDBCard>
         </MDBCol>
@@ -94,7 +95,6 @@ const AdminCardSection1 = ({ revData, servData }) => {
                   <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar grey darken-2" role="progressbar"
                     style={{width: '100%'}}></div>
                 </div>
-                {/* <MDBCardText>Worse than last week (75%)</MDBCardText> */}
               </MDBCardBody>
             </MDBCard>
         </MDBCol>

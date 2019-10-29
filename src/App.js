@@ -16,6 +16,7 @@ import './index.css';
 import ServiceDetails from './pages/reservation/ServiceDetails';
 import Reservations from './pages/reservation/Reservations';
 import Services from './pages/reservation/Services';
+import Rooms from './pages/room/Rooms';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/reservation/:id" component={ReservationDetails}/>
               <Route exact path="/service" component={Services}/>
               <Route exact path="/service/:id" component={ServiceDetails}/>
+              <Route exact path="/rooms" component={Rooms}/>
               <Route path='/profile' component={ProfilePage} />
               <Route path='/tables' component={TablesPage} />
             </Layout>

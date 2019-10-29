@@ -18,7 +18,7 @@ import useGetServices from "../../customhooks/useGetServices.js";
 
 const Services = ({ history }) => {
 	const token = localStorage.getItem("userToken");
-  const { services } = useGetServices(token, "/servicereservation/");
+  const { services: { isLoading, services} } = useGetServices(token, "/servicereservation/");
 
 	const dateToString = date => {
 		if (date) return new Date(date).toDateString();
@@ -30,7 +30,7 @@ const Services = ({ history }) => {
 			<BreadcrumSection name="Home" name2="Services" />
 			<MDBRow className="mb-4">
 				<MDBCol size="12" className="pt-3">
-					{services && services.isLoaded ? (
+					{services && !isLoading ? (
 						<MDBCard>
 							<MDBCardBody>
 								<MDBTable hover>
@@ -41,16 +41,15 @@ const Services = ({ history }) => {
 											<th>Booked Date</th>
 											<th>Approved</th>
 											<th>Unit Price</th>
-											<th>Total Price</th>
+											<th>Delivered</th>
 											<th>Paid</th>
 											<th></th>
 										</tr>
 									</MDBTableHead>
 									<MDBTableBody>
 										{services &&
-										services.services &&
-                    services.services.length > 0 ? (
-											services.services.map((service, index) => (
+                    	services.length > 0 ? (
+											services.map((service, index) => (
 												<tr
 													key={index}
 													onClick={() =>
@@ -62,7 +61,7 @@ const Services = ({ history }) => {
 													<td>{dateToString(service.booked_date)}</td>
 													<td>{service.approved === 0 ? "NO" : "YES"}</td>
 													<td>&#8358; {toCurrency(service.price)}</td>
-													<td>{service.paid === 0 ? "NO" : "YES"}</td>
+													<td>{service.proccessed === 0 ? "NO" : "YES"}</td>
 													<td>
 														{service.checkout_date ? (
 															<MDBBadge pill color="default">

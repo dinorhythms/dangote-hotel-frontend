@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from 'react-router-dom';
 import {
 	MDBCard,
@@ -10,16 +10,21 @@ import {
 } from "mdbreact";
 import Spinner from "./Spinner";
 
-const DashboardServices = ({ name, data, history }) => {
-	const [historyData, setHistoryData] = useState();
+import useGetServices from "../customhooks/useGetServices";
 
-	useEffect(() => {
-		setHistoryData(data);
-	}, [historyData, data]);
+const DashboardServices = ({ history }) => {
+
+	const token = localStorage.getItem("userToken");
+	const { services: {isLoading, services} } = useGetServices(token, "/servicereservation/");
+	
+	const dateToString = (date) => {
+    if (date) return new Date(date).toDateString();
+    return null;
+	}
 
 	return (
 		<MDBCol md="6">
-			<h5>Last 10 {name}</h5>
+			<h5>Last 10 Room Services</h5>
 			<MDBCard>
 				<MDBCardBody>
 					<MDBTable hover>
@@ -33,20 +38,19 @@ const DashboardServices = ({ name, data, history }) => {
 							</tr>
 						</MDBTableHead>
 						<MDBTableBody>
-							{historyData && !historyData.isLoaded ? (
+							{ services && isLoading ? (
 								<tr>
 									<td colSpan="4">
 										<Spinner/>
 									</td>
 								</tr>
-							) : historyData &&
-							  historyData.services &&
-							  historyData.services.length > 0 ? (
-								historyData.services.slice(0, 10).map((service, index) => (
+							) : services &&
+							  	services.length > 0 ? (
+									services.slice(0, 10).map((service, index) => (
 									<tr key={index} onClick={ () => history.push(`/service/${service.id}`) } style={{ cursor: 'pointer' }}>
 										<td>{index + 1}</td>
 										<td>{service.service.service_name}</td>
-										<td>{service.booked_date}</td>
+										<td>{dateToString(service.booked_date)}</td>
 										<td>{service.price}</td>
 										<td>{service.paid === 0 ? "NO" : "YES"}</td>
 									</tr>

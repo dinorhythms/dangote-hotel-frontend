@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
-	SERVICES_IS_LOADED,
-	IS_LOADING_SERVICES,
-  GET_SERVICE_BY_ID
+	IS_LOADING_SERVICE,
+  GET_SERVICE
 } from "../types/servicesTypes";
+
+import { ERROR } from '../types/errorTypes';
 
 const useGetServiceByID = (token, path, id) => {
 	const apiPath = process.env.REACT_APP_BACKEND;
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const getService = async () => {
-			dispatch({ type: IS_LOADING_SERVICES });
-			setLoading(true);
+			dispatch({ type: IS_LOADING_SERVICE });
 
 			try {
 				const url = `${apiPath}${path}${id}`;
@@ -28,19 +27,16 @@ const useGetServiceByID = (token, path, id) => {
 						Authorization: `Bearer ${token}`
 					}
 				});
-				dispatch({ type: GET_SERVICE_BY_ID, payload: response.data.data });
-				dispatch({ type: SERVICES_IS_LOADED });
-				setLoading(false);
+				dispatch({ type: GET_SERVICE, payload: response.data.data });
 			} catch (error) {
-				dispatch({ type: SERVICES_IS_LOADED });
-				setLoading(false);
+				dispatch({ type: ERROR, payload: error.response.data.error });
 			}
 		};
 		getService();
 	}, [apiPath, path, token, dispatch, id]);
 
-	const service = useSelector(state => state.services);
-	return { loading, service };
+	const service = useSelector(state => state.service);
+	return { service };
 };
 
 export default useGetServiceByID;

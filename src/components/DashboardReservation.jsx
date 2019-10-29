@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { MDBCard, MDBCardBody, MDBTable, MDBTableBody, MDBTableHead, MDBCol } from 'mdbreact';
 import Spinner from './Spinner';
 
-const DashboardReservation = ({ name, data, history }) => {
+import useGetReservations from "../customhooks/useGetReservations";
 
-  const [historyData, setHistoryData] = useState();
+const DashboardReservation = ({ history }) => {
+  const token = localStorage.getItem("userToken");
+  const { reservations: { isLoading, reservations} } = useGetReservations(token, "/reservation/");
 
-  useEffect(() => {
-    setHistoryData(data);
-  }, [historyData, data])
-  
+  const dateToString = (date) => {
+    if (date) return new Date(date).toDateString();
+    return null;
+	}
+ 
   return (
     <MDBCol md="6">
-        <h5>Last 10 {name} History</h5>
+        <h5>Last 10 Reservation</h5>
         <MDBCard>
             <MDBCardBody>
               <MDBTable hover>
@@ -28,7 +31,7 @@ const DashboardReservation = ({ name, data, history }) => {
                 </MDBTableHead>
                 <MDBTableBody>
                   {
-                    historyData && !historyData.isLoaded
+                    reservations && isLoading
                     ? (
                       <tr>
                         <td colSpan="5">
@@ -36,12 +39,12 @@ const DashboardReservation = ({ name, data, history }) => {
                         </td>
                       </tr>
                     )
-                    : historyData && historyData.reservation && historyData.reservation.length > 0
-                      ? historyData.reservation.slice(0, 10).map( (reservation, index) => (
+                    : reservations  && reservations.length > 0
+                      ? reservations.slice(0, 10).map( (reservation, index) => (
                         <tr key={index} onClick={ () => history.push(`/reservation/${reservation.id}`) } style={{ cursor: 'pointer' }}>
                           <td>{index+1}</td>
                           <td>{reservation.room.room_name}</td>
-                          <td>{reservation.booked_date}</td>
+                          <td>{dateToString(reservation.booked_date)}</td>
                           <td>{reservation.price}</td>
                           <td>{reservation.paid === 0?'NO':'YES'}</td>
                         </tr>

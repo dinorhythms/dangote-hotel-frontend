@@ -15,8 +15,7 @@ const ServiceDetails = ({ history, match }) => {
 	const { id } = match.params;
   const token = localStorage.getItem("userToken");
 
-  const { service } = useGetServiceByID(token, '/servicereservation/', id)
-  const { singleService } = service;
+  const { service: { isLoading, service} } = useGetServiceByID(token, '/servicereservation/', id)
 
 	return (
 		<React.Fragment>
@@ -25,7 +24,7 @@ const ServiceDetails = ({ history, match }) => {
 				<MDBIcon icon="angle-left" className="mr-1" /> Back
 			</MDBBtn>
 			<div className="white">
-        {service && singleService && service.isLoaded?(
+        {service && !isLoading?(
           <MDBRow>
           <MDBCol size="6" className="pl-5 pt-3">
             <div>
@@ -35,11 +34,11 @@ const ServiceDetails = ({ history, match }) => {
               <MDBIcon icon="asterisk" className="amber-text pr-1" />
               <MDBIcon icon="asterisk" className="amber-text pr-1" />
             </div>
-            <h2 className="h2-responsive mt-3 mb-3">{singleService.service.service_name}</h2>
-            <p><small>Booked Date: {singleService.booked_date}</small></p>
-            <p>{ singleService.service.description }</p>
-            <h3 className="h3-responsive text-primary mb-3">&#8358; { (+singleService.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }</h3>
-            Payment: {singleService.paid === 1?(
+            <h2 className="h2-responsive mt-3 mb-3">{service.service.service_name}</h2>
+            <p><small>Booked Date: {service.booked_date}</small></p>
+            <p>{ service.service.description }</p>
+            <h3 className="h3-responsive text-primary mb-3">&#8358; { (+service.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }</h3>
+            Payment: {service.paid === 1?(
               <MDBBadge pill color="success">Paid</MDBBadge>
             ):(
               <MDBBadge pill color="danger">Pending Payment</MDBBadge>
