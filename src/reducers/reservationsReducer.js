@@ -1,22 +1,22 @@
 import {
-	GET_RESERVATION,
-	LOADING_RESERVATION,
+	GET_RESERVATIONS,
+	LOADING_RESERVATIONS,
 } from "../types/reservationTypes";
 
 const initialState = {
 	isLoading: false,
-	reservation: null,
+  reservations: null,
 };
 
-export default function reservationReducer(state = initialState, action) {
+export default function reservationsReducer(state = initialState, action) {
 	switch (action.type) {
-		case LOADING_RESERVATION:
+		case LOADING_RESERVATIONS:
 			return { ...state, isLoading: true };
-		case GET_RESERVATION:
+		case GET_RESERVATIONS:
 			return {
 				...state,
 				isLoading: false,
-				reservation: action.payload
+				reservations: action.payload
 			};
 		default:
 			return state;

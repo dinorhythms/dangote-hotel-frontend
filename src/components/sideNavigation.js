@@ -34,6 +34,12 @@ const SideNavigation = () => {
                         Services
                     </MDBListGroupItem>
                 </NavLink>
+                <NavLink to="/rooms" activeClassName="activeClass">
+                    <MDBListGroupItem>
+                        <MDBIcon icon="table" className="mr-3"/>
+                        Rooms
+                    </MDBListGroupItem>
+                </NavLink>
                 {/* <NavLink to="/maps" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="map" className="mr-3"/>

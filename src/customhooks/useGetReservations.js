@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
-	IS_LOADING_RESERVATION,
+	LOADING_RESERVATIONS,
 	GET_RESERVATIONS,
-	RESERVATIONS_IS_LOADED
 } from "../types/reservationTypes";
+
+import { ERROR } from '../types/errorTypes';
 
 const useGetReservations = (token, path) => {
 	const apiPath = process.env.REACT_APP_BACKEND;
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const getReservation = async () => {
-			dispatch({ type: IS_LOADING_RESERVATION });
-			setLoading(true);
+			dispatch({ type: LOADING_RESERVATIONS });
 
 			try {
 				const url = `${apiPath}${path}`;
@@ -29,18 +28,15 @@ const useGetReservations = (token, path) => {
 					}
 				});
 				dispatch({ type: GET_RESERVATIONS, payload: response.data.data });
-        dispatch({ type: RESERVATIONS_IS_LOADED });
-        setLoading(false)
 			} catch (error) {
-        dispatch({ type: RESERVATIONS_IS_LOADED });
-        setLoading(false)
+				dispatch({ type: ERROR, payload: error.response.data.error });
 			}
 		};
 		getReservation();
 	}, [apiPath, path, token, dispatch]);
 
-	const reservations = useSelector(state => state.reservation);
-	return { loading, reservations };
+	const reservations = useSelector(state => state.reservations);
+	return { reservations };
 };
 
 export default useGetReservations;

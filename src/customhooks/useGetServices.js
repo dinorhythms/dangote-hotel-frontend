@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
-	SERVICES_IS_LOADED,
 	GET_SERVICES,
 	IS_LOADING_SERVICES
 } from "../types/servicesTypes";
 
+import { ERROR } from '../types/errorTypes';
+
 const useGetServices = (token, path) => {
 	const apiPath = process.env.REACT_APP_BACKEND;
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const getService = async () => {
 			dispatch({ type: IS_LOADING_SERVICES });
-			setLoading(true);
 
 			try {
 				const url = `${apiPath}${path}`;
@@ -29,18 +28,15 @@ const useGetServices = (token, path) => {
 					}
         });
 				dispatch({ type: GET_SERVICES, payload: response.data.data });
-				dispatch({ type: SERVICES_IS_LOADED });
-				setLoading(false);
 			} catch (error) {
-				dispatch({ type: SERVICES_IS_LOADED });
-				setLoading(false);
+				dispatch({ type: ERROR, payload: error.response.data.error });
 			}
 		};
 		getService();
 	}, [apiPath, path, token, dispatch]);
 
 	const services = useSelector(state => state.services);
-	return { loading, services };
+	return { services };
 };
 
 export default useGetServices;

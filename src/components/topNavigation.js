@@ -28,18 +28,17 @@ class TopNavigation extends Component {
                 <MDBNavbarToggler onClick = { this.onClick } />
                 <MDBCollapse isOpen = { this.state.collapse } navbar>
                     <MDBNavbarNav left>
-                        <MDBNavItem active>
-                            <MDBNavLink to="#">Home</MDBNavLink>
+                        <MDBNavItem>
+                            <MDBNavLink to="/dashboard" activeClassName="activeClass">Home</MDBNavLink>
                         </MDBNavItem>
                         <MDBNavItem>
-                            <MDBNavLink to="/reservation/1">Room</MDBNavLink>
-                            {/* <a rel="noopener noreferrer" className="nav-link Ripple-parent" href="/reservation/1" >Rooms</a> */}
+                            <MDBNavLink to="/rooms" activeClassName="activeClass">Rooms</MDBNavLink>
                         </MDBNavItem>
                         <MDBNavItem>
-                            <a rel="noopener noreferrer" className="nav-link Ripple-parent" href="https://mdbootstrap.com/docs/react/getting-started/download/" target="_blank">Bookings</a>
+                        <   MDBNavLink to="/reservation" activeClassName="activeClass">Reservations</MDBNavLink>
                         </MDBNavItem>
                         <MDBNavItem>
-                            <a rel="noopener noreferrer"  className="nav-link Ripple-parent" href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank">Services</a>
+                            <MDBNavLink to="/service" activeClassName="active">Services</MDBNavLink>
                         </MDBNavItem>
                     </MDBNavbarNav>
                     <MDBNavbarNav right>

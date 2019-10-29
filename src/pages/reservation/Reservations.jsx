@@ -19,21 +19,21 @@ import useGetReservations from "../../customhooks/useGetReservations";
 const Reservations = ({ history }) => {
 
 	const token = localStorage.getItem("userToken");
-  const { reservations } = useGetReservations(token, "/reservation/");
+  const { reservations: { isLoading, reservations } } = useGetReservations(token, "/reservation/");
   
   const getDayDiff = (date2, date1) => (timeDifference(date2 || new Date(), date1));
   const getTotalPrice = (price, date2, date1) => (toCurrency(+price*parseInt(getDayDiff(date2, date1))));
   const dateToString = (date) => {
     if (date) return new Date(date).toDateString();
     return null;
-  }
-
+	}
+	
 	return (
 		<React.Fragment>
 			<BreadcrumSection name="Home" name2="Reservation" />
 			<MDBRow className="mb-4">
 				<MDBCol size="12" className="pt-3">
-					{reservations && reservations.isLoaded ? (
+					{reservations && !isLoading ? (
 						<MDBCard>
 							<MDBCardBody>
 								<MDBTable hover>
@@ -54,9 +54,8 @@ const Reservations = ({ history }) => {
 									</MDBTableHead>
 									<MDBTableBody>
 										{reservations &&
-										reservations.reservation &&
-										reservations.reservation.length > 0 ? (
-											reservations.reservation.map((reservation, index) => (
+											reservations.length > 0 ? (
+											reservations.map((reservation, index) => (
 												<tr
 													key={index}
 													onClick={() =>
